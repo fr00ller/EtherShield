@@ -72,10 +72,10 @@ static uint8_t www_fd=0;
 static uint8_t browsertype=0; // 0 = get, 1 = post
 static void (*client_browser_callback)(uint8_t,uint16_t,uint16_t);
 #ifdef FLASH_VARS
-static prog_char *client_additionalheaderline;
-static prog_char *client_method;  // for POST or PUT, no trailing space needed
-static prog_char *client_urlbuf;
-static prog_char *client_hoststr;
+static char *client_additionalheaderline;
+static char *client_method;  // for POST or PUT, no trailing space needed
+static char *client_urlbuf;
+static char *client_hoststr;
 #else
 static char *client_additionalheaderline;
 static char *client_method;  // for POST or PUT, no trailing space needed
@@ -582,7 +582,7 @@ void init_len_info(uint8_t *buf)
 // fill in tcp data at position pos. pos=0 means start of
 // tcp data. Returns the position at which the string after
 // this string could be filled.
-uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s)
+uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const char *progmem_s)
 {
         char c;
         // fill in tcp data at position pos
@@ -734,7 +734,7 @@ void www_server_reply(uint8_t *buf,uint16_t dlen)
 
 #if defined (NTP_client) ||  defined (WOL_client) || defined (UDP_client) || defined (TCP_client) || defined (PING_client)
 // fill buffer with a prog-mem string
-void fill_buf_p(uint8_t *buf,uint16_t len, const prog_char *progmem_s)
+void fill_buf_p(uint8_t *buf,uint16_t len, const char *progmem_s)
 {
         while (len){
                 *buf= pgm_read_byte(progmem_s);
@@ -1436,7 +1436,7 @@ uint8_t www_client_internal_result_callback(uint8_t fd, uint8_t statuscode, uint
 //
 //
 #ifdef FLASH_VARS
-void client_browse_url(prog_char *urlbuf, char *urlbuf_varpart, prog_char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t))
+void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t))
 #else
 void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t))
 #endif
@@ -1456,9 +1456,9 @@ void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr, void (
 // when the post operation was really done (e.g when callback was executed).
 // postval must be urlencoded.
 #ifdef FLASH_VARS
-void client_http_post(prog_char *urlbuf, prog_char *hoststr, prog_char *additionalheaderline, prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t))
+void client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline, char *method, char *postval,void (*callback)(uint8_t,uint16_t))
 #else
-void client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline, prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t))
+void client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline, char *method, char *postval,void (*callback)(uint8_t,uint16_t))
 #endif
 {
         client_urlbuf=urlbuf;

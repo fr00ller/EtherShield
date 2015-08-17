@@ -37,7 +37,7 @@ extern void make_tcp_ack_from_any(uint8_t *buf);
 extern void make_tcp_ack_with_data(uint8_t *buf,uint16_t dlen);
 extern void make_tcp_ack_with_data_noflags(uint8_t *buf,uint16_t dlen);
 
-extern void fill_buf_p(uint8_t *buf,uint16_t len, const prog_char *progmem_s);
+extern void fill_buf_p(uint8_t *buf,uint16_t len, const char *progmem_s);
 extern void fill_ip_hdr_checksum(uint8_t *buf);
 extern uint16_t checksum(uint8_t *buf, uint16_t len,uint8_t type);
 
@@ -49,7 +49,7 @@ extern void make_udp_reply_from_request(uint8_t *buf,char *data,uint16_t datalen
 // of the tcp data if there is tcp data part
 extern uint16_t packetloop_icmp_tcp(uint8_t *buf,uint16_t plen);
 // functions to fill the web pages with data:
-extern uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s);
+extern uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const char *progmem_s);
 extern uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s);
 extern uint16_t fill_tcp_data_len(uint8_t *buf,uint16_t pos, const char *s, uint16_t len);
 // send data from the web server to the client:
@@ -134,7 +134,7 @@ extern uint16_t tcp_get_dlength ( uint8_t *buf );
 
 #ifdef FLASH_VARS
 // ----- http get
-extern void client_browse_url(prog_char *urlbuf, char *urlbuf_varpart, prog_char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t));
+extern void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t));
 #else
 // ----- http get
 extern void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr, void (*callback)(uint8_t,uint16_t,uint16_t));
@@ -153,7 +153,7 @@ extern void client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr,
 // postval must be urlencoded.
 
 #ifdef FLASH_VARS
-extern void client_http_post(prog_char *urlbuf, prog_char *hoststr, prog_char *additionalheaderline, prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t));
+extern void client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline, char *method, char *postval,void (*callback)(uint8_t,uint16_t));
 #else
 extern void client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline, char *method, char *postval,void (*callback)(uint8_t,uint16_t));
 #endif          // FLASH_VARS

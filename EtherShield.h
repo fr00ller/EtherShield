@@ -20,6 +20,7 @@
 #ifndef ETHERSHIELD_H
 #define ETHERSHIELD_H
 
+
 #include <inttypes.h>
 #include "ip_config.h"
 #include "enc28j60.h"
@@ -59,6 +60,7 @@ class EtherShield
 	void ES_make_tcp_ack_from_any(uint8_t *buf,int16_t datlentoack,uint8_t addflags);
 	void ES_make_tcp_ack_with_data(uint8_t *buf,uint16_t dlen);
 	void ES_make_tcp_ack_with_data_noflags(uint8_t *buf,uint16_t dlen);
+	
 	void ES_init_len_info(uint8_t *buf);
 	uint16_t ES_get_tcp_data_pointer(void);
 	uint16_t ES_build_tcp_data(uint8_t *buf, uint16_t srcPort );
@@ -67,8 +69,10 @@ class EtherShield
 	// UDP - dirkx
 	void ES_send_udp_data(uint8_t *buf,uint16_t dlen,uint16_t source_port, uint8_t *dest_ip, uint16_t dest_port);
 	void ES_send_udp_data(uint8_t *buf, uint8_t *destmac,uint16_t dlen,uint16_t source_port, uint8_t *dest_ip, uint16_t dest_port);
-	
-	void ES_fill_buf_p(uint8_t *buf,uint16_t len, const prog_char *progmem_s);
+	void ES_make_udp_reply_from_request(uint8_t *buf,char *data,uint16_t datalen,uint16_t port);
+
+
+	void ES_fill_buf_p(uint8_t *buf,uint16_t len, const char *progmem_s);
 	uint16_t ES_checksum(uint8_t *buf, uint16_t len,uint8_t type);
 	void ES_fill_ip_hdr_checksum(uint8_t *buf);
 
@@ -76,7 +80,7 @@ class EtherShield
 	// of the tcp data if there is tcp data part
 	uint16_t ES_packetloop_icmp_tcp(uint8_t *buf,uint16_t plen);
 	// functions to fill the web pages with data:
-	uint16_t ES_fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s);
+	uint16_t ES_fill_tcp_data_p(uint8_t *buf,uint16_t pos, const char *progmem_s);
 	uint16_t ES_fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s);
 	uint16_t ES_fill_tcp_data_len(uint8_t *buf,uint16_t pos, const char *s, uint16_t len );
 	// send data from the web server to the client:
@@ -122,7 +126,7 @@ class EtherShield
 #ifdef WWW_client
 	// ----- http get
 #ifdef FLASH_VARS
-	void ES_client_browse_url(prog_char *urlbuf, char *urlbuf_varpart, prog_char *hoststr,
+	void ES_client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr,
 			void (*callback)(uint8_t,uint16_t,uint16_t));
 #else
 	void ES_client_browse_url(char *urlbuf, char *urlbuf_varpart, char *hoststr,
@@ -141,8 +145,8 @@ class EtherShield
 	// when the post operation was really done (e.g when callback was executed).
 	// postval must be urlencoded.
 #ifdef FLASH_VARS
-	void ES_client_http_post(prog_char *urlbuf, prog_char *hoststr, prog_char *additionalheaderline,
-			prog_char *method, char *postval,void (*callback)(uint8_t,uint16_t));
+	void ES_client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline,
+			char *method, char *postval,void (*callback)(uint8_t,uint16_t));
 #else
 	void ES_client_http_post(char *urlbuf, char *hoststr, char *additionalheaderline,
 			char *method, char *postval,void (*callback)(uint8_t,uint16_t));
